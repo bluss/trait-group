@@ -14,7 +14,10 @@
 ///
 /// use std::ops::Add;
 /// 
-/// trait_group!(pub trait CanAdd : Add<Self, Output=Self> + Copy);
+/// trait_group! {
+///     /// You can document the trait here
+///     pub trait CanAdd : Add<Self, Output=Self> + Copy
+/// }
 /// 
 /// fn foo<T: CanAdd>(x: T) -> T { x + x }
 /// 
@@ -34,20 +37,31 @@ macro_rules! trait_group {
         trait_group!{@as_items $($st)*}
     };
     // User-facing rule: pub trait
-    (pub trait $name:ident : $($t:tt)+) => {
-        trait_group!{@as_items pub trait $name : $($t)+ { }}
+    ($(#[$attr:meta])* pub trait $name:ident : $($t:tt)+) => {
+        trait_group!{@as_items $(#[$attr])* pub trait $name : $($t)+ { }}
         trait_group!{@replace_self with T [] impl<T> $name for T where T: $($t)+ { }}
     };
     // User-facing rule: (not pub) trait 
-    (trait $name:ident : $($t:tt)+) => {
-        trait_group!{@as_items trait $name : $($t)+ { }}
+    ($(#[$attr:meta])* trait $name:ident : $($t:tt)+) => {
+        trait_group!{@as_items $(#[$attr])* trait $name : $($t)+ { }}
         trait_group!{@replace_self with T [] impl<T> $name for T where T: $($t)+ { }}
     };
 }
 
+
 #[cfg(test)]
 mod tests {
     #[test]
+    #[allow(deprecated)]
     fn it_works() {
+        trait_group! {
+            /// This is the documentation
+            #[deprecated(note = "just a test")]
+            trait Test : Extend<u8> + Default
+        }
+
+        fn foo<V: Test>() -> V { let mut v = V::default(); v.extend(Some(0)); v }
+
+        assert_eq!(foo::<Vec<_>>(), vec![0]);
     }
 }
