@@ -1,0 +1,10 @@
+[package]
+name = "trait_group"
+version = "0.1.0"
+authors = ["bluss <bluss@users.noreply.github.com>"]
+
+documentation = "https://docs.rs/trait_group/0.1/"
+description = ""
+license = ""
+
+[dependencies]
