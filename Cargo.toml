@@ -1,10 +1,11 @@
 [package]
-name = "trait_group"
+name = "trait-group"
 version = "0.1.0"
-authors = ["bluss <bluss@users.noreply.github.com>"]
+authors = ["bluss"]
+license = "MIT/Apache-2.0"
 
-documentation = "https://docs.rs/trait_group/0.1/"
-description = ""
-license = ""
+documentation = "https://docs.rs/trait-group/0.1/"
+repository = "https://github.com/bluss/trait-group"
+description = "Macro to create a new trait that acts like an alias or “group” of a bunch of traits."
 
 [dependencies]
